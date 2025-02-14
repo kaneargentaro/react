@@ -1,55 +1,30 @@
-// Import image
-import reactImg from './assets/react-core-concepts.png';
-import {CORE_CONCEPTS} from './data.js'
+import {useState} from 'react';
 
-const reactDescriptor = ['Fundamental', 'Core', 'Crucial'];
-
-function genRandomInt(max: number): number {
-    return Math.floor(Math.random() * (max + 1));
-}
-
-function Header() {
-    // Dynamic values
-    const description = reactDescriptor[genRandomInt(reactDescriptor.length - 1)];
-
-    return (
-        <header>
-            <img src={reactImg} alt="Stylized atom" />
-            <h1>React Essentials</h1>
-            <p>
-                {description} React concepts you will need for almost any app you are
-                going to build!
-            </p>
-        </header>
-    );
-}
-function CoreConcept(props: { image: string, title: string, description: string }) {
-    return (
-        <li>
-            <img src={props.image} alt="..."/>
-            <h3>{props.title}</h3>
-            <p>{props.description}</p>
-        </li>
-    )
-}
-
-
-// function CoreConcept1(title, description, image) {
-//     return (
-//         <li>
-//             <img src={image} alt="..."/>
-//             <h3>{title}</h3>
-//             <p>{description}</p>
-//         </li>
-//     )
-// }
+// @ts-ignore
+import {CORE_CONCEPTS} from "./data.js";
+import CoreConcept from "./components/CoreConcept/CoreConcept.tsx";
+import Header from "./components/Header/Header.tsx";
+import TabButton from './components/TabButton/TabButton.tsx';
 
 function App() {
+    // Hook function
+    // Exactly 2 elements
+    const [ selectedTopic, setSelectedTopic ] = useState('Please click a button');
+
+    function handleSelect(selectedButton: string) {
+        if (selectedButton === 'components') {
+            setSelectedTopic(`We are running Components`);
+        } else if (selectedButton === 'jsx') {
+            setSelectedTopic(`We are running JSX`);
+        } else if (selectedButton === 'props') {
+            setSelectedTopic(`We are running Props`);
+        } else if (selectedButton === 'state') {
+            setSelectedTopic(`We are running State`);
+        }
+    }
 
     return (
         <div>
-            {/*{Header()}*/}
-            {/*<Header></Header>*/}
             <Header/>
             <section id="core-concepts">
                 <h2>Core Concepts</h2>
@@ -62,17 +37,17 @@ function App() {
                             {...concept}
                         />
                     ))}
-                    {/*{CoreConcept({*/}
-                    {/*    title: "Components",*/}
-                    {/*    description: "The core UI building block",*/}
-                    {/*    image: componentsImg*/}
-                    {/*})}*/}
-                    {/*{CoreConcept1(*/}
-                    {/*    "Components",*/}
-                    {/*    "The core UI building block",*/}
-                    {/*    componentsImg*/}
-                    {/*)}*/}
                 </ul>
+            </section>
+            <section id="examples">
+                <h2>Examples</h2>
+                <menu>
+                    <TabButton onSelect={() => handleSelect('components')}>Components</TabButton>
+                    <TabButton onSelect={() => handleSelect('jsx')}>JSX</TabButton>
+                    <TabButton onSelect={() => handleSelect('props')}>Props</TabButton>
+                    <TabButton onSelect={() => handleSelect('state')}>State</TabButton>
+                </menu>
+                <p>{selectedTopic}</p>
             </section>
             <main>
                 <h2>Time to get started!</h2>
