@@ -59,6 +59,10 @@ const moves = [
 ];
 
 function App() {
+    const [players, setPlayers] = useState({
+        "X": "Player 1",
+        "O": "Player 2",
+    });
     const [gameTurns, setGameTurns] = useState([]);
     // const [activePlayer, setActivePlayer] = useState('X');
 
@@ -76,7 +80,7 @@ function App() {
     if (gameTurns.length > 0) {
         let winningPlayer = checkWinner(gameBoard);
         if (winningPlayer) {
-            winner = winningPlayer;
+            winner = players[winningPlayer];
         }
     }
 
@@ -86,20 +90,27 @@ function App() {
         setGameTurns([]);
     }
 
+    function playerNameChangeHandler(symbol, newName) {
+        setPlayers((players) => {
+            return {
+                ...players,
+                [symbol]: newName
+            };
+        })
+    }
+
     function selectSquareHandler(rowIndex, colIndex) {
         // setActivePlayer((currentActivePlayer) => currentActivePlayer === 'X' ? 'O' : 'X');
         setGameTurns(previousTurns => {
             let currentPlayer = derivedPlayerPlayer(previousTurns);
 
-            let updatedTurns = [
+            return [
                 {
                     square: {row: rowIndex, col: colIndex},
                     player: currentPlayer,
                 },
                 ...previousTurns
             ];
-
-            return updatedTurns;
         })
     }
 
@@ -114,11 +125,13 @@ function App() {
                             initialName="Player 1"
                             symbol="X"
                             isActive={currentPlayer === 'X'}
+                            onChangeName={playerNameChangeHandler}
                         />
                         <PlayerListItem
                             initialName="Player 2"
                             symbol="O"
                             isActive={currentPlayer === 'O'}
+                            onChangeName={playerNameChangeHandler}
                         />
                     </Players>
                     {(winner || hasDraw) && <GameOver

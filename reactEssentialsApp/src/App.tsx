@@ -1,4 +1,3 @@
-import {useState} from 'react';
 // @ts-ignore
 import {CORE_CONCEPTS, EXAMPLES} from './data.js';
 import CoreConcept from "./components/CoreConcept/CoreConcept.tsx";
@@ -8,7 +7,6 @@ import TabButton from './components/TabButton/TabButton.tsx';
 function App() {
     // Hook function
     // Exactly 2 elements
-    const [selectedTopic, setSelectedTopic] = useState();
 
     function handleSelect(selectedButton: string) {
         if (EXAMPLES[selectedButton]) {

@@ -6,13 +6,18 @@ export default function PlayerListItem({
                                            nameClassName = "player-name",
                                            symbolClassName = "player-symbol",
                                            playerClassName = "player",
-                                           isActive
+                                           isActive,
+                                           onChangeName
                                        }) {
     const [playerName, setPlayerName] = useState(initialName);
     const [isEditing, isEditingState] = useState(false);
 
     function handleEditClick() {
         isEditingState((editing) => !editing);
+
+        if (isEditing) {
+            onChangeName(symbol, playerName);
+        }
     }
 
     function handleChange(event) {
